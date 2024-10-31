@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\BloomUnique;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Password;
 
@@ -33,7 +34,7 @@ class StoreUserRequest extends FormRequest
                 'string',
                 'email',
                 'max:255',
-                'unique:users',
+                new BloomUnique('user_emails'),
             ],
             'password' => [
                 'required',

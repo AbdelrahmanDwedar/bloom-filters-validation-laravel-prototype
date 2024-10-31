@@ -25,6 +25,8 @@ class UserController extends Controller
     {
         $user = User::create($request->validated());
 
+        Redis::executeRaw(['BF.MADD', 'user_emails', $user->email]);
+
         return response()->json(new UserResource($user), 201);
     }
 

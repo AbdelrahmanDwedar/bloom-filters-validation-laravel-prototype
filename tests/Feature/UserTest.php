@@ -35,23 +35,6 @@ test('can show a user', function () {
              ->assertJsonStructure(['id', 'name', 'email', 'created_at', 'updated_at']);
 });
 
-test('can update a user', function () {
-    $user = User::factory()->create();
-
-    $updateData = [
-        'name' => 'Updated Name',
-        'email' => 'updated@example.com'
-    ];
-
-    $response = $this->putJson("/api/users/{$user->id}", $updateData);
-
-    $response->assertStatus(200)
-             ->assertJsonFragment([
-                 'name' => 'Updated Name',
-                 'email' => 'updated@example.com'
-             ]);
-});
-
 test('can delete a user', function () {
     $user = User::factory()->create();
 

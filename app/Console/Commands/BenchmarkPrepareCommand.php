@@ -28,9 +28,6 @@ class BenchmarkPrepareCommand extends Command
         // migrate database
         $this->call('migrate:fresh');
 
-        // clear redis
-        $this->call('redis:bloom:clear', ['key' => 'user_emails']);
-
         // seed database
         $this->call('db:seed');
 

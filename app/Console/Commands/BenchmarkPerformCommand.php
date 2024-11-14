@@ -8,7 +8,7 @@ use Illuminate\Support\Benchmark;
 use Illuminate\Support\Facades\Http;
 use League\CommonMark\Node\Inline\Newline;
 
-class BenchmarkCommonEmailsCommand extends Command
+class BenchmarkPerformCommand extends Command
 {
     /**
      * The name and signature of the console command.

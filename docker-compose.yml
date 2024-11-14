@@ -39,15 +39,6 @@ services:
                 - ping
             retries: 3
             timeout: 5s
-    k6:
-        image: 'grafana/k6:latest'
-        command: 'run /scripts/test.js'
-        volumes:
-            - './k6:/scripts'
-        networks:
-            - sail
-        depends_on:
-            - laravel.test
     pgsql:
         image: 'postgres:17'
         ports:

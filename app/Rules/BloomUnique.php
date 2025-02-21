@@ -25,7 +25,7 @@ class BloomUnique implements ValidationRule
     {
         if (Redis::executeRaw(['BF.EXISTS', $this->filterName, $value])) {
             // Check database only if Bloom filter indicates possible existence
-            if (User::where('email', $value)->exists()) {
+            if (User::where($this->filterName, $value)->exists()) {
                 $fail('The :attribute has already been taken.');
             }
         }

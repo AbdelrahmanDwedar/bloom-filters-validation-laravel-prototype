@@ -27,84 +27,62 @@ A **Bloom filter** is a space-efficient, probabilistic data structure used to te
 
 - PHP 8.1 or higher
 - Composer
-- Redis server
-- k6 (for performance testing)
+- Redis Stack Server
 
 ## Setup and Installation
 
-1. Clone the repository:
-
+1. Clone the Repository
 ```bash
-git clone https://github.com/yourusername/laravel-bloom-validation.git
+git clone https://github.com/AbdelrahmanDwedar/bloom-filters-validation-laravel-prototype.git
 cd laravel-bloom-validation
 ```
 
-
-2. Install Laravel Sail:
-
+2. Setup Sail (For using docker)
 ```bash
 composer require laravel/sail --dev
 php artisan sail:install
 ```
 
-
-3. Start Docker containers:
-
-```bash
-./vendor/bin/sail up -d
-```
-
-
-4. Install PHP dependencies:
-
-```bash
-./vendor/bin/sail composer install
-```
-
-
-5. Set up environment file:
-
+3. Setup the environment
 ```bash
 cp .env.example .env
 ./vendor/bin/sail artisan key:generate
 ```
 
-6. Redis is already configured in Sail's Docker environment. Your .env file should have:
+4. Add the configuration for the database
+```env
+DB_CONNECTION=pgsql
+DB_HOST=127.0.0.1
+DB_PORT=5432
+DB_DATABASE=laravel
+DB_USERNAME=root
+DB_PASSWORD=laravel
+```
 
+Also, add the configuration for **Redis**
 ```env
 REDIS_HOST=redis
 REDIS_PASSWORD=null
 REDIS_PORT=6379
 ```
 
-7. Install k6 for performance testing:
+5. Start the docker containers, and install dependencies
+```bash
+./vendor/bin/sail up -d
+./vendor/bin/sail composer install
+```
 
-Using Laravel Sail:
+6. Use the custom-made commands to prepare the setup
+```bash
+./vendor/bin/sail artisan benchmark:prepare
+./vendor/bin/sail artisan benchmark:perform
+```
 
-./vendor/bin/sail add k6
+These are two custom commands I made for this prototype, the first one `benchmark:prepare` task is:
+- migrations with a fresh database
+- run the seeder
 
-Alternatively, you can use the k6 Docker image directly:
+And for the `benchmark:perform` task is to
+- run the benchmarks
+- display them in a table in the terminal
 
-docker run --rm -i grafana/k6 run - <script.js
-
-Note: When running k6 tests, make sure to use the Docker network to connect to your Laravel application:
-
-./vendor/bin/sail k6 run tests/performance/bloom-filter-validation.js
-## Testing
-
-The project includes comprehensive test coverage:
-
-1. Run PHPUnit tests:
-
-php artisan test
-
-
-2. Run performance tests with k6:
-
-k6 run tests/performance/bloom-filter-validation.js
-
-
-The test suite includes:
-- Unit tests for Bloom filter operations
-- Integration tests for validation rules
-- Performance benchmarks comparing traditional validation vs Bloom filter validation
